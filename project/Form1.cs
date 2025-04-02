@@ -19,12 +19,14 @@ namespace project
 
         private void button1_Click(object sender, EventArgs e)
         {
-             
+            новая_выставка form2 = new новая_выставка();
+            form2.Show();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            Edit edit = new Edit();
+            edit.Show();
         }
 
         private void Form1_Load(object sender, EventArgs e)
