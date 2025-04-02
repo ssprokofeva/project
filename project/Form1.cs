@@ -29,21 +29,17 @@ namespace project
             edit.Show();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            Filtr filtr = new Filtr();
+            filtr.Show();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Вы действительно хотите удалить выстаавку?", "Внимание!",
-            MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
+            Delete delete = new Delete();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
