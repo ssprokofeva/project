@@ -40,6 +40,7 @@ namespace project
         private void button4_Click(object sender, EventArgs e)
         {
             Delete delete = new Delete();
+            delete.Show();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
