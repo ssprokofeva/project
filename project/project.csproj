@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddExhibition.cs" />
     <Compile Include="Classes\Category.cs" />
     <Compile Include="Classes\Exhibition.cs" />
     <Compile Include="Classes\DataAccess.cs" />
