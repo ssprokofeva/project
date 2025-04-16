@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace project
 {
-    public partial class новая_выставка : Form
+    public partial class New_Form : Form
     {
-        public новая_выставка()
+        public New_Form()
         {
             InitializeComponent();
 
@@ -43,8 +43,13 @@ namespace project
             {
                 string filePath = openFileDialog.FileName;
                 // Сохраните путь к изображению для дальнейшего использования
-                txtImagePath.Text = filePath;
+                
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+             
         }
     }
 }

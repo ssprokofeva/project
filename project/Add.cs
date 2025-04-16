@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace project
 {
-    public class AddExhibition
+    public class Add: NewExhibition
     {
-        // метод для добавления я здесь пишу
         private void AddExhibition(string title, string imagePath)
         {
             using (var context = new ProjectContext())

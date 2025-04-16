@@ -1,6 +1,6 @@
 ﻿namespace project
 {
-    partial class новая_выставка
+    partial class New_Form
     {
         /// <summary>
         /// Required designer variable.
@@ -33,7 +33,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnSave_Click = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.btnSelectImg_Click = new System.Windows.Forms.Button();
@@ -82,15 +82,16 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Обложка:";
             // 
-            // button1
+            // btnSave_Click
             // 
-            this.button1.BackColor = System.Drawing.Color.LimeGreen;
-            this.button1.Location = new System.Drawing.Point(203, 211);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(112, 30);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Сохранить";
-            this.button1.UseVisualStyleBackColor = false;
+            this.btnSave_Click.BackColor = System.Drawing.Color.LimeGreen;
+            this.btnSave_Click.Location = new System.Drawing.Point(203, 211);
+            this.btnSave_Click.Name = "btnSave_Click";
+            this.btnSave_Click.Size = new System.Drawing.Size(112, 30);
+            this.btnSave_Click.TabIndex = 5;
+            this.btnSave_Click.Text = "Сохранить";
+            this.btnSave_Click.UseVisualStyleBackColor = false;
+            this.btnSave_Click.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -124,7 +125,7 @@
             this.ClientSize = new System.Drawing.Size(716, 363);
             this.Controls.Add(this.btnSelectImg_Click);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnSave_Click);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label2);
@@ -144,7 +145,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnSave_Click;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button btnSelectImg_Click;
