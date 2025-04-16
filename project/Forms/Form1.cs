@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -11,14 +12,33 @@ namespace project
     public partial class Form1 : Form
     {
         private List<Exhibition> exhibitions = new List<Exhibition>();
+        private Dictionary<PictureBox, Exhibition> pictureBoxToExhibitionMap = new Dictionary<PictureBox, Exhibition>();
+        private Exhibition selectedExhibition = null;
+        private string dbPath = "ExhibitionsDB.sqlite";
 
         public Form1()
         {
             InitializeComponent();
             SetupDataGridView();
             LoadExhibitions();
+            InitializePictureBoxes();
         }
+        private void InitializePictureBoxes()
+        {
+            List<PictureBox> pictureBoxes = new List<PictureBox>
+        {
+            pictureBox, pictureBox2, pictureBox3,
+            pictureBox4, pictureBox5, pictureBox6
+        };
 
+            foreach (var pb in pictureBoxes)
+            {
+                pb.Cursor = Cursors.Hand;
+                pb.SizeMode = PictureBoxSizeMode.Zoom;
+                pb.BorderStyle = BorderStyle.None;
+                pb.Click += PictureBox_Click;
+            }
+        }
         private void SetupDataGridView()
         {
             dataGridViewExhibitions.AutoGenerateColumns = false;
@@ -56,13 +76,15 @@ namespace project
 
             Console.WriteLine($"Загружено {exhibitions.Count} выставок.");
 
-            List<PictureBox> pictureBoxes = new List<PictureBox> { pictureBox1, pictureBox2, pictureBox3 };
+            List<PictureBox> pictureBoxes = new List<PictureBox> { pictureBox, pictureBox2, pictureBox3 };
+            pictureBoxToExhibitionMap.Clear();
 
             for (int i = 0; i < exhibitions.Count && i < pictureBoxes.Count; i++)
             {
                 var exhibition = exhibitions[i];
+                var pictureBox = pictureBoxes[i];
+                pictureBoxToExhibitionMap[pictureBox] = exhibition;
 
-                // Выводим отладочную информацию
                 Console.WriteLine($"Загрузка выставки ID: {exhibition.Id}, Название: {exhibition.AddTitle}");
 
                 if (exhibition.CoverImage != null && exhibition.CoverImage.Length > 0)
@@ -92,8 +114,45 @@ namespace project
         }
 
 
-        private void DataGridViewExhibitions_CellClick(object sender, DataGridViewCellEventArgs e)
+
+
+
+        private void ClearPictureBoxes()
         {
+            foreach (var pb in new List<PictureBox> { pictureBox, pictureBox2, pictureBox3,
+                                                 pictureBox4, pictureBox5, pictureBox6 })
+            {
+                pb.Image?.Dispose();
+                pb.Image = null;
+                pb.BorderStyle = BorderStyle.None;
+            }
+        }
+        private void PictureBox_Click(object sender, EventArgs e)
+        {
+            if (sender is PictureBox clickedBox &&
+                pictureBoxToExhibitionMap.TryGetValue(clickedBox, out var exhibition))
+            {
+                selectedExhibition = exhibition;
+                SelectPictureBox(clickedBox);
+                btnEdit.Enabled = true;
+                
+            }
+        }
+        private void SelectPictureBox(PictureBox selectedBox)
+        {
+            foreach (var pb in pictureBoxToExhibitionMap.Keys)
+            {
+                pb.BorderStyle = pb == selectedBox ? BorderStyle.Fixed3D : BorderStyle.None;
+                pb.BackColor = pb == selectedBox ? Color.LightBlue : SystemColors.Control;
+            }
+        }
+
+
+
+
+
+        private void DataGridViewExhibitions_CellClick(object sender, DataGridViewCellEventArgs e)
+            {
             if (e.RowIndex >= 0 && e.RowIndex < exhibitions.Count)
             {
                 var exhibition = exhibitions[e.RowIndex];
@@ -105,7 +164,7 @@ namespace project
                     {
                         using (var ms = new MemoryStream(exhibition.CoverImage))
                         {
-                            pictureBox1.Image = Image.FromStream(ms);
+                            pictureBox.Image = Image.FromStream(ms);
                             Console.WriteLine("Изображение успешно загружено в pictureBox1.");
                         }
                     }
@@ -116,7 +175,7 @@ namespace project
                 }
                 else
                 {
-                    pictureBox1.Image = null;
+                    pictureBox.Image = null;
                     Console.WriteLine("Изображение не найдено для этой выставки.");
                 }
             }
@@ -152,8 +211,14 @@ namespace project
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            Edit edit = new Edit();
-            edit.Show();
+            if (selectedExhibition != null)
+            {
+                var editForm = new Edit(selectedExhibition.Id, dbPath);
+                if (editForm.ShowDialog() == DialogResult.OK)
+                {
+                    LoadExhibitions(); 
+                }
+            }
         }
     }
 }

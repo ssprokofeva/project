@@ -32,12 +32,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
-            this.pictureBoxCover = new System.Windows.Forms.PictureBox();
-            this.btnChange = new System.Windows.Forms.Button();
+            this.picCover = new System.Windows.Forms.PictureBox();
+            this.btnChangeCover = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCover)).BeginInit();
+            this.dtpDate = new System.Windows.Forms.DateTimePicker();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            ((System.ComponentModel.ISupportInitialize)(this.picCover)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -74,24 +75,23 @@
             this.txtTitle.Size = new System.Drawing.Size(183, 20);
             this.txtTitle.TabIndex = 3;
             // 
-            // pictureBoxCover
+            // picCover
             // 
-            this.pictureBoxCover.Location = new System.Drawing.Point(252, 144);
-            this.pictureBoxCover.Name = "pictureBoxCover";
-            this.pictureBoxCover.Size = new System.Drawing.Size(100, 50);
-            this.pictureBoxCover.TabIndex = 5;
-            this.pictureBoxCover.TabStop = false;
+            this.picCover.Location = new System.Drawing.Point(252, 144);
+            this.picCover.Name = "picCover";
+            this.picCover.Size = new System.Drawing.Size(100, 50);
+            this.picCover.TabIndex = 5;
+            this.picCover.TabStop = false;
             // 
-            // btnChange
+            // btnChangeCover
             // 
-            this.btnChange.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.btnChange.Location = new System.Drawing.Point(264, 200);
-            this.btnChange.Name = "btnChange";
-            this.btnChange.Size = new System.Drawing.Size(75, 23);
-            this.btnChange.TabIndex = 6;
-            this.btnChange.Text = "Изменить ";
-            this.btnChange.UseVisualStyleBackColor = false;
-            this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
+            this.btnChangeCover.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btnChangeCover.Location = new System.Drawing.Point(264, 200);
+            this.btnChangeCover.Name = "btnChangeCover";
+            this.btnChangeCover.Size = new System.Drawing.Size(75, 23);
+            this.btnChangeCover.TabIndex = 6;
+            this.btnChangeCover.Text = "Изменить ";
+            this.btnChangeCover.UseVisualStyleBackColor = false;
             // 
             // btnSave
             // 
@@ -112,31 +112,38 @@
             this.btnCancel.TabIndex = 8;
             this.btnCancel.Text = "Отменить ";
             this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // dateTimePicker1
+            // dtpDate
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(252, 102);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker1.TabIndex = 9;
+            this.dtpDate.Location = new System.Drawing.Point(252, 102);
+            this.dtpDate.Name = "dtpDate";
+            this.dtpDate.Size = new System.Drawing.Size(200, 20);
+            this.dtpDate.TabIndex = 9;
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog1";
             // 
             // Edit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.dtpDate);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.btnChange);
-            this.Controls.Add(this.pictureBoxCover);
+            this.Controls.Add(this.btnChangeCover);
+            this.Controls.Add(this.picCover);
             this.Controls.Add(this.txtTitle);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "Edit";
+            this.Tag = " ";
             this.Text = "Редактирование выставки ";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCover)).EndInit();
+            this.Load += new System.EventHandler(this.Edit_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.picCover)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -148,10 +155,11 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtTitle;
-        private System.Windows.Forms.PictureBox pictureBoxCover;
-        private System.Windows.Forms.Button btnChange;
+        private System.Windows.Forms.PictureBox picCover;
+        private System.Windows.Forms.Button btnChangeCover;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dtpDate;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }

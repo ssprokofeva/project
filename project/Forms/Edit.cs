@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -13,110 +14,132 @@ namespace project
 {
     public partial class Edit : Form
     {
-        private readonly ProjectContext _db = new ProjectContext();
-        private byte[] _coverImageBytes;
-        private string _selectedFolderPath;
-        private int selectedExhibitionId;
-        public Edit()
+        private SQLiteConnection connection;
+        private int exhibitionId; 
+        private string tempImagePath = "";
+        public Edit(int exhibitionId, string dbPath)
         {
             InitializeComponent();
+            this.exhibitionId = exhibitionId;
+            connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
+            connection.Open();
 
-            // Настройка элементов формы
-            dateTimePicker1.Format = DateTimePickerFormat.Custom;
-            dateTimePicker1.CustomFormat = "dd.MM.yyyy";
+            LoadExhibitionData();
+             
         }
-
+        //  прям очень нужно вернуться к этому, сама не поняла что сделала
         public Edit(Exhibition selectedExhibition)
         {
-            InitializeComponent();
-
-            // Заполняем форму данными выставки
-            txtTitle.Text = selectedExhibition.AddTitle;
-            dateTimePicker1.Value = selectedExhibition.Date;
-
-            // Загружаем изображение в pictureBox (если есть)
-            if (selectedExhibition.CoverImage != null)
-            {
-                using (var ms = new System.IO.MemoryStream(selectedExhibition.CoverImage))
-                {
-                    pictureBoxCover.Image = Image.FromStream(ms);
-                }
-            }
-
-            // Сохраняем ID для использования в методе сохранения
-            selectedExhibitionId = selectedExhibition.Id;
         }
 
-        // Кнопка выбора обложки
+        public Edit()
+        {
+        }
+
+        private void LoadExhibitionData()
+        {
+            string query = "SELECT Title, ExhibitionDate, Photo FROM Exhibitions WHERE ExhibitionID = @Id";
+            using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
+            {
+                cmd.Parameters.AddWithValue("@Id", exhibitionId);
+
+                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        txtTitle.Text = reader["Title"].ToString();
+                        dtpDate.Value = DateTime.Parse(reader["ExhibitionDate"].ToString());
+
+                        if (reader["Photo"] != DBNull.Value)
+                        {
+                            byte[] imageData = (byte[])reader["Photo"];
+                            using (MemoryStream ms = new MemoryStream(imageData))
+                            {
+                                picCover.Image = Image.FromStream(ms);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Выставка не найдена", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        this.Close();
+                    }
+                }
+            }
+        }
+         
         private void btnSelectCover_Click(object sender, EventArgs e)
         {
-            using (var openFileDialog = new OpenFileDialog())
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    pictureBoxCover.Image = Image.FromFile(openFileDialog.FileName);
-                    _coverImageBytes = File.ReadAllBytes(openFileDialog.FileName);  // Сохраняем изображение в массив байтов
-                }
+                tempImagePath = openFileDialog.FileName;
+                picCover.Image = Image.FromFile(tempImagePath); 
             }
         }
 
-
-        // Кнопка сохранения
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtTitle.Text))
             {
-                MessageBox.Show("Введите название выставки");
+                MessageBox.Show("Название выставки не может быть пустым", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             try
             {
-                var exhibition = _db.Exhibitions.Find(selectedExhibitionId);  // Используем переменную ID
-                if (exhibition != null)
+                byte[] newImageData = null;
+
+                if (!string.IsNullOrEmpty(tempImagePath))
                 {
-                    exhibition.AddTitle = txtTitle.Text;
-                    exhibition.Date = dateTimePicker1.Value;
-
-                    if (_coverImageBytes != null)
-                    {
-                        exhibition.CoverImage = _coverImageBytes;  // Обновляем изображение
-                    }
-
-                    _db.SaveChanges();
-
-                    MessageBox.Show("Выставка успешно обновлена!");
-                    this.Close();
+                    newImageData = File.ReadAllBytes(tempImagePath);
                 }
+                else if (picCover.Image != null)
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        picCover.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        newImageData = ms.ToArray();
+                    }
+                }
+                string updateQuery = @"
+            UPDATE Exhibitions 
+            SET Title = @Title, 
+                ExhibitionDate = @Date, 
+                Photo = @Photo 
+            WHERE ExhibitionID = @Id";
+
+                using (SQLiteCommand cmd = new SQLiteCommand(updateQuery, connection))
+                {
+                    cmd.Parameters.AddWithValue("@Title", txtTitle.Text);
+                    cmd.Parameters.AddWithValue("@Date", dtpDate.Value.ToString("yyyy-MM-dd"));
+                    cmd.Parameters.AddWithValue("@Photo", newImageData ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Id", exhibitionId);
+
+                    cmd.ExecuteNonQuery();
+                }
+                MessageBox.Show("Изменения сохранены!", "Успех",
+                      MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}");
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
-
-        private void btnChange_Click(object sender, EventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
         {
-            using (var fileDialog = new OpenFileDialog())
-            {
-                fileDialog.Filter = "Изображения|*.jpg;*.jpeg;*.png;*.bmp";
-                if (fileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    // Затем выбираем папку
-                    using (var folderDialog = new FolderBrowserDialog())
-                    {
-                        if (folderDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            _coverImageBytes = File.ReadAllBytes(fileDialog.FileName);
-                            _selectedFolderPath = folderDialog.SelectedPath;
-                            pictureBoxCover.Image = Image.FromFile(fileDialog.FileName);
-                        }
-                    }
-                }
-            }
+            this.Close();
+        }
+        private void EditExhibitionForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            connection?.Close();
+        }
+
+        private void Edit_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
