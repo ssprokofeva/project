@@ -54,8 +54,6 @@ namespace project
                 exhibitions = context.Database.SqlQuery<Exhibition>("SELECT * FROM Exhibitions").ToList();
             }
 
-
-            // Выводим отладочную информацию о выставках
             Console.WriteLine($"Загружено {exhibitions.Count} выставок.");
 
             List<PictureBox> pictureBoxes = new List<PictureBox> { pictureBox1, pictureBox2, pictureBox3 };

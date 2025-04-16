@@ -31,11 +31,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.txtExhibitionName = new System.Windows.Forms.TextBox();
+            this.dtpExhibition = new System.Windows.Forms.DateTimePicker();
+            this.btnSelectImage = new System.Windows.Forms.Button();
+            this.btnSaveNew = new System.Windows.Forms.Button();
+            this.btnCancelNew = new System.Windows.Forms.Button();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // label1
@@ -65,57 +66,64 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "Обложка:";
             // 
-            // textBox1
+            // txtExhibitionName
             // 
-            this.textBox1.Location = new System.Drawing.Point(275, 56);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 3;
+            this.txtExhibitionName.Location = new System.Drawing.Point(275, 56);
+            this.txtExhibitionName.Name = "txtExhibitionName";
+            this.txtExhibitionName.Size = new System.Drawing.Size(100, 20);
+            this.txtExhibitionName.TabIndex = 3;
             // 
-            // dateTimePicker1
+            // dtpExhibition
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(275, 115);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker1.TabIndex = 4;
+            this.dtpExhibition.Location = new System.Drawing.Point(275, 115);
+            this.dtpExhibition.Name = "dtpExhibition";
+            this.dtpExhibition.Size = new System.Drawing.Size(200, 20);
+            this.dtpExhibition.TabIndex = 4;
             // 
-            // button1
+            // btnSelectImage
             // 
-            this.button1.Location = new System.Drawing.Point(275, 165);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(83, 48);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Выбрать файл ";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnSelectImage.Location = new System.Drawing.Point(275, 165);
+            this.btnSelectImage.Name = "btnSelectImage";
+            this.btnSelectImage.Size = new System.Drawing.Size(83, 48);
+            this.btnSelectImage.TabIndex = 5;
+            this.btnSelectImage.Text = "Выбрать файл ";
+            this.btnSelectImage.UseVisualStyleBackColor = true;
+            this.btnSelectImage.Click += new System.EventHandler(this.btnSelectImage_Click);
             // 
-            // button2
+            // btnSaveNew
             // 
-            this.button2.Location = new System.Drawing.Point(163, 257);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "Сохранить ";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnSaveNew.Location = new System.Drawing.Point(163, 257);
+            this.btnSaveNew.Name = "btnSaveNew";
+            this.btnSaveNew.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveNew.TabIndex = 6;
+            this.btnSaveNew.Text = "Сохранить ";
+            this.btnSaveNew.UseVisualStyleBackColor = true;
+            this.btnSaveNew.Click += new System.EventHandler(this.btnSaveNew_Click);
             // 
-            // button3
+            // btnCancelNew
             // 
-            this.button3.Location = new System.Drawing.Point(400, 257);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 7;
-            this.button3.Text = "Отменить ";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnCancelNew.Location = new System.Drawing.Point(400, 257);
+            this.btnCancelNew.Name = "btnCancelNew";
+            this.btnCancelNew.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelNew.TabIndex = 7;
+            this.btnCancelNew.Text = "Отменить ";
+            this.btnCancelNew.UseVisualStyleBackColor = true;
+            this.btnCancelNew.Click += new System.EventHandler(this.btnCancelNew_Click);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog1";
             // 
             // NewExhibition
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.btnCancelNew);
+            this.Controls.Add(this.btnSaveNew);
+            this.Controls.Add(this.btnSelectImage);
+            this.Controls.Add(this.dtpExhibition);
+            this.Controls.Add(this.txtExhibitionName);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -132,10 +140,11 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox txtExhibitionName;
+        private System.Windows.Forms.DateTimePicker dtpExhibition;
+        private System.Windows.Forms.Button btnSelectImage;
+        private System.Windows.Forms.Button btnSaveNew;
+        private System.Windows.Forms.Button btnCancelNew;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }
