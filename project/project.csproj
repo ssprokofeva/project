@@ -130,6 +130,14 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="bin\Debug\bin\Debug\ExhibitionsDB.sqlite" />
+    <None Include="bin\Debug\bin\Debug\project" />
+    <None Include="bin\Debug\bin\Debug\project.db" />
+    <None Include="bin\Debug\bin\Debug\project.exe.config" />
+    <None Include="bin\Debug\bin\Debug\YourDatabase.sqlite" />
+    <None Include="bin\Debug\bin\project.db" />
+    <None Include="bin\Debug\project" />
+    <None Include="bin\Debug\project.db" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -143,6 +151,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\bin\Debug\EntityFramework.dll" />
+    <Content Include="bin\Debug\bin\Debug\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\Debug\bin\Debug\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\Debug\bin\Debug\EntityFramework.xml" />
+    <Content Include="bin\Debug\bin\Debug\project.exe" />
+    <Content Include="bin\Debug\bin\Debug\project.pdb" />
+    <Content Include="bin\Debug\bin\Debug\sqlite3.dll" />
+    <Content Include="bin\Debug\bin\Debug\System.Data.SQLite.dll" />
+    <Content Include="bin\Debug\bin\Debug\System.Data.SQLite.EF6.dll" />
+    <Content Include="bin\Debug\bin\Debug\System.Data.SQLite.Linq.dll" />
+    <Content Include="bin\Debug\bin\Debug\System.Data.SQLite.xml" />
+    <Content Include="bin\Debug\bin\Debug\x64\SQLite.Interop.dll" />
+    <Content Include="bin\Debug\bin\Debug\x86\SQLite.Interop.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\bin\Release\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

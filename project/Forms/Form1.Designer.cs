@@ -31,7 +31,7 @@
             this.btnAdd_Click = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btnDeleteMain = new System.Windows.Forms.Button();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -86,15 +86,16 @@
             this.button3.Text = "Фильтр ";
             this.button3.UseVisualStyleBackColor = false;
             // 
-            // button4
+            // btnDeleteMain
             // 
-            this.button4.BackColor = System.Drawing.Color.Tomato;
-            this.button4.Location = new System.Drawing.Point(597, 13);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(147, 35);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Удалить ";
-            this.button4.UseVisualStyleBackColor = false;
+            this.btnDeleteMain.BackColor = System.Drawing.Color.Tomato;
+            this.btnDeleteMain.Location = new System.Drawing.Point(597, 13);
+            this.btnDeleteMain.Name = "btnDeleteMain";
+            this.btnDeleteMain.Size = new System.Drawing.Size(147, 35);
+            this.btnDeleteMain.TabIndex = 3;
+            this.btnDeleteMain.Text = "Удалить ";
+            this.btnDeleteMain.UseVisualStyleBackColor = false;
+            this.btnDeleteMain.Click += new System.EventHandler(this.btnDeleteMain_Click);
             // 
             // pictureBox
             // 
@@ -231,7 +232,7 @@
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.btnDeleteMain);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnAdd_Click);
@@ -254,7 +255,7 @@
         private System.Windows.Forms.Button btnAdd_Click;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btnDeleteMain;
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;

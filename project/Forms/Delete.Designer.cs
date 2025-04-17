@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblMessage = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // label1
+            // lblMessage
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(239, 124);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(189, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Вы точно хотите удалить выставку?";
+            this.lblMessage.AutoSize = true;
+            this.lblMessage.Location = new System.Drawing.Point(239, 124);
+            this.lblMessage.Name = "lblMessage";
+            this.lblMessage.Size = new System.Drawing.Size(189, 13);
+            this.lblMessage.TabIndex = 0;
+            this.lblMessage.Text = "Вы точно хотите удалить выставку?";
             // 
             // btnDelete
             // 
@@ -51,27 +51,27 @@
             this.btnDelete.TabIndex = 1;
             this.btnDelete.Text = "Удалить ";
             this.btnDelete.UseVisualStyleBackColor = false;
-            this.btnDelete.Click += new System.EventHandler(this.button1_Click);
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // button2
+            // btnCancel
             // 
-            this.button2.BackColor = System.Drawing.Color.LightGreen;
-            this.button2.Location = new System.Drawing.Point(396, 175);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 31);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Отмена ";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnCancel.BackColor = System.Drawing.Color.LightGreen;
+            this.btnCancel.Location = new System.Drawing.Point(396, 175);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 31);
+            this.btnCancel.TabIndex = 2;
+            this.btnCancel.Text = "Отмена ";
+            this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // Delete
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(677, 325);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnDelete);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblMessage);
             this.Name = "Delete";
             this.Text = "Внимание!!!";
             this.ResumeLayout(false);
@@ -81,8 +81,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblMessage;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

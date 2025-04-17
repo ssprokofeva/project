@@ -12,19 +12,25 @@ namespace project
 {
     public partial class Delete : Form
     {
-        public Delete()
+        private int exhibitionId;
+        public Delete(int id, string exhibitionName)
         {
             InitializeComponent();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
+            exhibitionId = id;
+            lblMessage.Text = $"Вы действительно хотите удалить выставку '{exhibitionName}'?";
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnDelete_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
 
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
     }
 }

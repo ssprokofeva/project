@@ -38,36 +38,80 @@ namespace project
 
         private void LoadExhibitionData()
         {
-            string query = "SELECT Title, ExhibitionDate, Photo FROM Exhibitions WHERE ExhibitionID = @Id";
-            using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
+            try
             {
-                cmd.Parameters.AddWithValue("@Id", exhibitionId);
+                string query = "SELECT Title, ExhibitionDate, Photo FROM Exhibitions WHERE ExhibitionID = @Id";
 
-                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
                 {
-                    if (reader.Read())
-                    {
-                        txtTitle.Text = reader["Title"].ToString();
-                        dtpDate.Value = DateTime.Parse(reader["ExhibitionDate"].ToString());
+                    cmd.Parameters.AddWithValue("@Id", exhibitionId);
 
-                        if (reader["Photo"] != DBNull.Value)
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
                         {
-                            byte[] imageData = (byte[])reader["Photo"];
-                            using (MemoryStream ms = new MemoryStream(imageData))
+                            // Обработка Title
+                            txtTitle.Text = reader["Title"] is DBNull ? string.Empty : reader["Title"].ToString();
+                            if (reader["ExhibitionDate"] is DBNull)
                             {
-                                picCover.Image = Image.FromStream(ms);
+                                dtpDate.Value = DateTime.Now;
+                            }
+                            else
+                            {
+                                DateTime exhibitionDate;
+                                if (DateTime.TryParse(reader["ExhibitionDate"].ToString(), out exhibitionDate))
+                                {
+                                    dtpDate.Value = exhibitionDate;
+                                }
+                            }
+                            if (reader["Photo"] != DBNull.Value)
+                            {
+                                try
+                                {
+                                    byte[] imageData = (byte[])reader["Photo"];
+                                    using (MemoryStream ms = new MemoryStream(imageData))
+                                    {
+                                        picCover.Image?.Dispose(); // Освобождаем предыдущее изображение
+                                        picCover.Image = Image.FromStream(ms);
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show($"Ошибка загрузки изображения: {ex.Message}",
+                                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    picCover.Image = null;
+                                }
+                            }
+                            else
+                            {
+                                picCover.Image = null;
                             }
                         }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Выставка не найдена", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        this.Close();
+                        else
+                        {
+                            MessageBox.Show("Выставка не найдена", "Ошибка",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            this.Close();
+                        }
                     }
                 }
             }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show($"Ошибка базы данных: {ex.Message}",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Неизвестная ошибка: {ex.Message}",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+            }
         }
-         
+                    
+
+
         private void btnSelectCover_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)

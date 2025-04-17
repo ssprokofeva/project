@@ -15,6 +15,7 @@ namespace project
         private Dictionary<PictureBox, Exhibition> pictureBoxToExhibitionMap = new Dictionary<PictureBox, Exhibition>();
         private Exhibition selectedExhibition = null;
         private string dbPath = "ExhibitionsDB.sqlite";
+        private string connectionString;
 
         public Form1()
         {
@@ -22,6 +23,32 @@ namespace project
             SetupDataGridView();
             LoadExhibitions();
             InitializePictureBoxes();
+            
+        }
+        private void DeleteExhibition(int id)
+        {
+            string query = "DELETE FROM Exhibitions WHERE ExhibitionID = @Id";
+
+            try
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
+                {
+                    connection.Open();
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Выставка успешно удалена");
+                        LoadExhibitions(); 
+                    }
+                }
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show($"Ошибка при удалении: {ex.Message}");
+            }
         }
         private void InitializePictureBoxes()
         {
@@ -68,7 +95,9 @@ namespace project
         }
 
         private void LoadExhibitions()
+
         {
+            
             using (var context = new ProjectContext())
             {
                 exhibitions = context.Database.SqlQuery<Exhibition>("SELECT * FROM Exhibitions").ToList();
@@ -89,7 +118,7 @@ namespace project
 
                 if (exhibition.CoverImage != null && exhibition.CoverImage.Length > 0)
                 {
-                    // Выводим размер изображения для отладки
+
                     Console.WriteLine($"Найдено изображение для выставки, размер: {exhibition.CoverImage.Length} байт.");
 
                     try
@@ -135,7 +164,7 @@ namespace project
                 selectedExhibition = exhibition;
                 SelectPictureBox(clickedBox);
                 btnEdit.Enabled = true;
-                
+
             }
         }
         private void SelectPictureBox(PictureBox selectedBox)
@@ -152,7 +181,7 @@ namespace project
 
 
         private void DataGridViewExhibitions_CellClick(object sender, DataGridViewCellEventArgs e)
-            {
+        {
             if (e.RowIndex >= 0 && e.RowIndex < exhibitions.Count)
             {
                 var exhibition = exhibitions[e.RowIndex];
@@ -213,10 +242,42 @@ namespace project
         {
             if (selectedExhibition != null)
             {
-                var editForm = new Edit(selectedExhibition.Id, dbPath);
-                if (editForm.ShowDialog() == DialogResult.OK)
+                try
                 {
-                    LoadExhibitions(); 
+                     var editForm = new Edit(selectedExhibition.Id, dbPath);
+
+                    if (editForm.ShowDialog() == DialogResult.OK)
+                    {
+                        
+                        LoadExhibitions();
+                    }
+                    editForm.Dispose();
+                }
+                catch (ObjectDisposedException ex)
+                {
+                    MessageBox.Show($"Ресурсы уже освобождены: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка: {ex.Message}");
+                }
+            }
+        }
+
+        private void btnDeleteMain_Click(object sender, EventArgs e)
+        {
+            if (selectedExhibition == null)
+            {
+                MessageBox.Show("Выберите выставку для удаления");
+                return;
+            }
+            using (var confirmForm = new Delete(
+        selectedExhibition.Id,
+        selectedExhibition.Title))
+            {
+                if (confirmForm.ShowDialog() == DialogResult.OK)
+                {
+                    DeleteExhibition(selectedExhibition.Id);
                 }
             }
         }
