@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.IO;
 using System.Windows.Forms;
 
 namespace project
@@ -9,6 +10,7 @@ namespace project
         [STAThread]
         static void Main()
         {
+           
             Database.SetInitializer(new CreateDatabaseIfNotExists<ProjectContext>());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

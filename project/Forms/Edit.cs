@@ -53,14 +53,14 @@ namespace project
                             txtTitle.Text = reader["Title"] is DBNull ? string.Empty : reader["Title"].ToString();
                             if (reader["ExhibitionDate"] is DBNull)
                             {
-                                dtpDate.Value = DateTime.Now;
+                                dateTimePicker1.Value = DateTime.Now;
                             }
                             else
                             {
                                 DateTime exhibitionDate;
                                 if (DateTime.TryParse(reader["ExhibitionDate"].ToString(), out exhibitionDate))
                                 {
-                                    dtpDate.Value = exhibitionDate;
+                                    dateTimePicker1.Value = exhibitionDate;
                                 }
                             }
                             if (reader["Photo"] != DBNull.Value)
@@ -70,20 +70,20 @@ namespace project
                                     byte[] imageData = (byte[])reader["Photo"];
                                     using (MemoryStream ms = new MemoryStream(imageData))
                                     {
-                                        picCover.Image?.Dispose();
-                                        picCover.Image = Image.FromStream(ms);
+                                        pictu.Image?.Dispose();
+                                        pictu.Image = Image.FromStream(ms);
                                     }
                                 }
                                 catch (Exception ex)
                                 {
                                     MessageBox.Show($"Ошибка загрузки изображения: {ex.Message}",
                                         "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                    picCover.Image = null;
+                                    pictu.Image = null;
                                 }
                             }
                             else
                             {
-                                picCover.Image = null;
+                                pictu.Image = null;
                             }
                         }
                         else
@@ -116,7 +116,7 @@ namespace project
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 tempImagePath = openFileDialog.FileName;
-                picCover.Image = Image.FromFile(tempImagePath); 
+                pictu.Image = Image.FromFile(tempImagePath); 
             }
         }
 
@@ -137,11 +137,11 @@ namespace project
                 {
                     newImageData = File.ReadAllBytes(tempImagePath);
                 }
-                else if (picCover.Image != null)
+                else if (pictu.Image != null)
                 {
                     using (MemoryStream ms = new MemoryStream())
                     {
-                        picCover.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        pictu.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
                         newImageData = ms.ToArray();
                     }
                 }
@@ -155,7 +155,7 @@ namespace project
                 using (SQLiteCommand cmd = new SQLiteCommand(updateQuery, connection))
                 {
                     cmd.Parameters.AddWithValue("@Title", txtTitle.Text);
-                    cmd.Parameters.AddWithValue("@Date", dtpDate.Value.ToString("yyyy-MM-dd"));
+                    cmd.Parameters.AddWithValue("@Date", dateTimePicker1.Value.ToString("yyyy-MM-dd"));
                     cmd.Parameters.AddWithValue("@Photo", newImageData ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@Id", exhibitionId);
 

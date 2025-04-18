@@ -74,6 +74,7 @@
             this.Controls.Add(this.lblMessage);
             this.Name = "Delete";
             this.Text = "Внимание!!!";
+            this.Load += new System.EventHandler(this.Delete_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

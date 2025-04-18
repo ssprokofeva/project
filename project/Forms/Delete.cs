@@ -32,5 +32,10 @@ namespace project
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
+
+        private void Delete_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

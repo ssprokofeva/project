@@ -32,13 +32,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
-            this.picCover = new System.Windows.Forms.PictureBox();
+            this.pictu = new System.Windows.Forms.PictureBox();
             this.btnChangeCover = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.dtpDate = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            ((System.ComponentModel.ISupportInitialize)(this.picCover)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictu)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -75,13 +75,13 @@
             this.txtTitle.Size = new System.Drawing.Size(183, 20);
             this.txtTitle.TabIndex = 3;
             // 
-            // picCover
+            // pictu
             // 
-            this.picCover.Location = new System.Drawing.Point(252, 144);
-            this.picCover.Name = "picCover";
-            this.picCover.Size = new System.Drawing.Size(100, 50);
-            this.picCover.TabIndex = 5;
-            this.picCover.TabStop = false;
+            this.pictu.Location = new System.Drawing.Point(252, 144);
+            this.pictu.Name = "pictu";
+            this.pictu.Size = new System.Drawing.Size(100, 50);
+            this.pictu.TabIndex = 5;
+            this.pictu.TabStop = false;
             // 
             // btnChangeCover
             // 
@@ -114,12 +114,12 @@
             this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // dtpDate
+            // dateTimePicker1
             // 
-            this.dtpDate.Location = new System.Drawing.Point(252, 102);
-            this.dtpDate.Name = "dtpDate";
-            this.dtpDate.Size = new System.Drawing.Size(200, 20);
-            this.dtpDate.TabIndex = 9;
+            this.dateTimePicker1.Location = new System.Drawing.Point(252, 102);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.TabIndex = 9;
             // 
             // openFileDialog
             // 
@@ -130,11 +130,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.dtpDate);
+            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnChangeCover);
-            this.Controls.Add(this.picCover);
+            this.Controls.Add(this.pictu);
             this.Controls.Add(this.txtTitle);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -143,7 +143,7 @@
             this.Tag = " ";
             this.Text = "Редактирование выставки ";
             this.Load += new System.EventHandler(this.Edit_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.picCover)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictu)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -155,11 +155,11 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtTitle;
-        private System.Windows.Forms.PictureBox picCover;
+        private System.Windows.Forms.PictureBox pictu;
         private System.Windows.Forms.Button btnChangeCover;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.DateTimePicker dtpDate;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }
