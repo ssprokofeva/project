@@ -97,7 +97,6 @@ namespace project
         private void LoadExhibitions()
 
         {
-            
             using (var context = new ProjectContext())
             {
                 exhibitions = context.Database.SqlQuery<Exhibition>("SELECT * FROM Exhibitions").ToList();
@@ -175,11 +174,7 @@ namespace project
                 pb.BackColor = pb == selectedBox ? Color.LightBlue : SystemColors.Control;
             }
         }
-
-
-
-
-
+ 
         private void DataGridViewExhibitions_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.RowIndex < exhibitions.Count)
@@ -271,7 +266,7 @@ namespace project
                 MessageBox.Show("Выберите выставку для удаления");
                 return;
             }
-            using (var confirmForm = new Delete(
+            using (var confirmForm = new Delete( 
         selectedExhibition.Id,
         selectedExhibition.Title))
             {

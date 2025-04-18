@@ -50,7 +50,6 @@ namespace project
                     {
                         if (reader.Read())
                         {
-                            // Обработка Title
                             txtTitle.Text = reader["Title"] is DBNull ? string.Empty : reader["Title"].ToString();
                             if (reader["ExhibitionDate"] is DBNull)
                             {
@@ -71,7 +70,7 @@ namespace project
                                     byte[] imageData = (byte[])reader["Photo"];
                                     using (MemoryStream ms = new MemoryStream(imageData))
                                     {
-                                        picCover.Image?.Dispose(); // Освобождаем предыдущее изображение
+                                        picCover.Image?.Dispose();
                                         picCover.Image = Image.FromStream(ms);
                                     }
                                 }

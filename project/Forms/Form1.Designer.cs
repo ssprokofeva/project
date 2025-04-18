@@ -45,6 +45,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.dataGridViewExhibitions = new System.Windows.Forms.DataGridView();
+            this.btnReport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -213,12 +214,23 @@
             this.dataGridViewExhibitions.Size = new System.Drawing.Size(390, 292);
             this.dataGridViewExhibitions.TabIndex = 16;
             // 
+            // btnReport
+            // 
+            this.btnReport.BackColor = System.Drawing.Color.Turquoise;
+            this.btnReport.Location = new System.Drawing.Point(812, 13);
+            this.btnReport.Name = "btnReport";
+            this.btnReport.Size = new System.Drawing.Size(131, 35);
+            this.btnReport.TabIndex = 17;
+            this.btnReport.Text = "Отчет";
+            this.btnReport.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PapayaWhip;
             this.ClientSize = new System.Drawing.Size(1182, 413);
+            this.Controls.Add(this.btnReport);
             this.Controls.Add(this.dataGridViewExhibitions);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -269,6 +281,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DataGridView dataGridViewExhibitions;
+        private System.Windows.Forms.Button btnReport;
     }
 }
 

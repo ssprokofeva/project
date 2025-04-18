@@ -28,10 +28,7 @@ namespace project
             connection = new SQLiteConnection($"Data Source={dbPath};Version=3;");
             connection.Open();
         }
-
-
          
-
         private void btnSelectImage_Click(object sender, EventArgs e)
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -54,7 +51,6 @@ namespace project
             {
                 byte[] imageBytes = null;
 
-                // Если файл выбран, конвертируем его в BLOB
                 if (!string.IsNullOrEmpty(selectedImagePath))
                 {
                     imageBytes = File.ReadAllBytes(selectedImagePath);
@@ -74,8 +70,7 @@ namespace project
                 }
 
                 MessageBox.Show("Выставка сохранена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Очистка формы
+ 
                 txtExhibitionName.Clear();
                 selectedImagePath = "";
             }
