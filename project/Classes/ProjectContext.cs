@@ -4,7 +4,12 @@ namespace project
 {
     public class ProjectContext : DbContext
     {
-        public ProjectContext() : base("name=ProjectContext") { }
+        public ProjectContext() : base("ProjectContext")
+        {
+            
+          Database.SetInitializer(new CreateDatabaseIfNotExists<ProjectContext>());
+            
+        }
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Exhibition> Exhibitions { get; set; }

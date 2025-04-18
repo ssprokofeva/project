@@ -14,9 +14,8 @@ namespace project
         private List<Exhibition> exhibitions = new List<Exhibition>();
         private Dictionary<PictureBox, Exhibition> pictureBoxToExhibitionMap = new Dictionary<PictureBox, Exhibition>();
         private Exhibition selectedExhibition = null;
-        private string dbPath = "ExhibitionsDB.sqlite";
-        private string connectionString;
-
+        private string dbPath = "project.db";
+        
         public Form1()
         {
             InitializeComponent();
@@ -27,29 +26,27 @@ namespace project
         }
         private void DeleteExhibition(int id)
         {
-            string query = "DELETE FROM Exhibitions WHERE ExhibitionID = @Id";
-
             try
             {
-                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
-                using (SQLiteCommand cmd = new SQLiteCommand(query, connection))
+                using (var context = new  ProjectContext())
                 {
-                    connection.Open();
-                    cmd.Parameters.AddWithValue("@Id", id);
-                    int rowsAffected = cmd.ExecuteNonQuery();
-
-                    if (rowsAffected > 0)
+                    var exhibition = context.Exhibitions.Find(id);
+                    if (exhibition != null)
                     {
+                        context.Exhibitions.Remove(exhibition);
+                        context.SaveChanges();
                         MessageBox.Show("Выставка успешно удалена");
-                        LoadExhibitions(); 
+                        LoadExhibitions();
                     }
                 }
             }
-            catch (SQLiteException ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка при удалении: {ex.Message}");
             }
         }
+
+        
         private void InitializePictureBoxes()
         {
             List<PictureBox> pictureBoxes = new List<PictureBox>
@@ -97,29 +94,32 @@ namespace project
         private void LoadExhibitions()
 
         {
-            using (var context = new ProjectContext())
+            try
             {
-                exhibitions = context.Database.SqlQuery<Exhibition>("SELECT * FROM Exhibitions").ToList();
-            }
-
-            Console.WriteLine($"Загружено {exhibitions.Count} выставок.");
-
-            List<PictureBox> pictureBoxes = new List<PictureBox> { pictureBox, pictureBox2, pictureBox3 };
-            pictureBoxToExhibitionMap.Clear();
-
-            for (int i = 0; i < exhibitions.Count && i < pictureBoxes.Count; i++)
-            {
-                var exhibition = exhibitions[i];
-                var pictureBox = pictureBoxes[i];
-                pictureBoxToExhibitionMap[pictureBox] = exhibition;
-
-                Console.WriteLine($"Загрузка выставки ID: {exhibition.Id}, Название: {exhibition.AddTitle}");
-
-                if (exhibition.CoverImage != null && exhibition.CoverImage.Length > 0)
+                using (var context = new ProjectContext())
                 {
+                    exhibitions = context.Exhibitions
+                        .Include(e => e.Category) 
+                        .ToList();
 
-                    Console.WriteLine($"Найдено изображение для выставки, размер: {exhibition.CoverImage.Length} байт.");
+                    dataGridViewExhibitions.DataSource = exhibitions;
+                }
+                Console.WriteLine($"Загружено {exhibitions.Count} выставок.");
 
+                List<PictureBox> pictureBoxes = new List<PictureBox> { pictureBox, pictureBox2, pictureBox3 };
+                pictureBoxToExhibitionMap.Clear();
+                for (int i = 0; i < exhibitions.Count && i < pictureBoxes.Count; i++)
+                {
+                    var exhibition = exhibitions[i];
+                    var pictureBox = pictureBoxes[i];
+                    pictureBoxToExhibitionMap[pictureBox] = exhibition;
+
+                    Console.WriteLine($"Загрузка выставки ID: {exhibition.Id}, Название: {exhibition.Title}");
+                    if (exhibition.CoverImage != null && exhibition.CoverImage.Length > 0)
+                    {
+                        Console.WriteLine($"Найдено изображение для выставки, размер: {exhibition.CoverImage.Length} байт.");
+
+                    }
                     try
                     {
                         using (var ms = new MemoryStream(exhibition.CoverImage))
@@ -132,18 +132,16 @@ namespace project
                     {
                         Console.WriteLine($"Ошибка при загрузке изображения: {ex.Message}");
                     }
-                }
-                else
-                {
-                    pictureBoxes[i].Image = null;
-                    Console.WriteLine("Изображение не найдено для данной выставки.");
+
+
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при загрузке данных: {ex.Message}");
+            }
         }
-
-
-
-
+        
 
         private void ClearPictureBoxes()
         {
@@ -275,6 +273,11 @@ namespace project
                     DeleteExhibition(selectedExhibition.Id);
                 }
             }
+        }
+
+        private void btnReport_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
